@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.spass'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('keycloakVersion', '8.0.1')
+}
+
+dependencies {
+
+	// Spring
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation 'org.projectlombok:lombok:1.18.10'
+
+
+	// Keycloak
+	implementation 'org.keycloak:keycloak-spring-boot-starter'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+dependencyManagement {
+	imports {
+		mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+	}
+
+}
+test {
+	useJUnitPlatform()
+}
